@@ -1,61 +1,53 @@
 pipeline {
 
-   agent any
+agent any
 
-   stages {
+environment {
 
-      stage("build") {
+NEW_VERSION = '1.0.0'
 
-         steps {
+ADMIN_CREDENTIALS = credentials('admin_user_credentials')
 
-            echo 'building the applicaiton...'
+}
 
-         }
+stages {
 
-      }
+stage("build") {
 
-      stage("test") {
+steps {
 
-         steps {
+echo 'building the applicaiton...'
 
-            echo 'testing the applicaiton...'
+echo "building version ${NEW_VERSION}"
 
-         }
+}
 
-      }
+}
 
-      stage("deploy") {
+stage("test") {
 
-         steps {
+steps {
 
-            echo 'deploying the applicaiton...'
+echo 'testing the applicaiton...'
 
-         }
+}
 
-      }
+}
 
-   }
+stage("deploy") {
 
-   post {
+steps {
 
-         always {
+echo 'deploying the applicaiton...'
 
-            echo 'building..'
+echo "deploying with ${ADMIN_CREDENTIALS}"
 
-         }
+sh 'printf ${ADMIN_CREDENTIALS}'
 
-         success {
+}
 
-               echo 'success'
+}
 
-         }
+}
 
-         failure {
-
-               echo 'failure'
-
-         }
-
-      }
-
-   }
+}
