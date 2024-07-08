@@ -6,8 +6,6 @@ environment {
 
 NEW_VERSION = '1.0.0'
 
-ADMIN_CREDENTIALS = credentials('admin_user_credentials')
-
 }
 
 stages {
@@ -40,9 +38,17 @@ steps {
 
 echo 'deploying the applicaiton...'
 
-echo "deploying with ${ADMIN_CREDENTIALS}"
+withCredentials([[$class: 'UsernamePasswordMultiBinding',
 
-sh 'printf ${ADMIN_CREDENTIALS}'
+credentialsId: 'admin_user_credentials',
+
+usernameVariable: 'USER',
+
+passwordVariable: 'PWD'
+
+]]) {
+
+sh 'printf ${USER}'
 
 }
 
@@ -51,3 +57,6 @@ sh 'printf ${ADMIN_CREDENTIALS}'
 }
 
 }
+
+}
+
